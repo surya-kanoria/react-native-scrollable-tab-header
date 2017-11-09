@@ -1,5 +1,5 @@
 import {TouchableWithoutFeedback} from "react-native";
-
+var createReactClass = require('create-react-class');
 const React = require('react');
 const ReactNative = require('react-native');
 const {
@@ -14,23 +14,23 @@ const {
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
-const ScrollableTabs = React.createClass({
-    propTypes: {
-        goToPage: React.PropTypes.func,
-        activeTab: React.PropTypes.number,
-        tabs: React.PropTypes.array,
-        backgroundColor: React.PropTypes.string,
-        activeTextColor: React.PropTypes.string,
-        inactiveTextColor: React.PropTypes.string,
-        scrollOffset: React.PropTypes.number,
-        style: React.PropTypes.object,
-        tabStyle: React.PropTypes.object,
-        tabsContainerStyle: React.PropTypes.object,
-        textStyle: Text.propTypes.style,
-        renderTab: React.PropTypes.func,
-        underlineStyle: React.PropTypes.object,
-        onScroll: React.PropTypes.func,
-    },
+const ScrollableTabs = createReactClass({
+    // propTypes: {
+    //     goToPage: React.PropTypes.func,
+    //     activeTab: React.PropTypes.number,
+    //     tabs: React.PropTypes.array,
+    //     backgroundColor: React.PropTypes.string,
+    //     activeTextColor: React.PropTypes.string,
+    //     inactiveTextColor: React.PropTypes.string,
+    //     scrollOffset: React.PropTypes.number,
+    //     style: React.PropTypes.object,
+    //     tabStyle: React.PropTypes.object,
+    //     tabsContainerStyle: React.PropTypes.object,
+    //     textStyle: Text.propTypes.style,
+    //     renderTab: React.PropTypes.func,
+    //     underlineStyle: React.PropTypes.object,
+    //     onScroll: React.PropTypes.func,
+    // },
 
     getDefaultProps() {
         return {
