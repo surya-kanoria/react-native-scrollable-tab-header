@@ -11,6 +11,7 @@ const {
     Platform,
     Dimensions
 } = ReactNative;
+import Tabs from './Tabs'
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
@@ -145,31 +146,14 @@ const ScrollableTabs = createReactClass({
         }
     },
 
-    renderTab(name, page, isTabActive, onPressHandler, onLayoutHandler) {
-        const {activeTextColor, inactiveTextColor, textStyle,} = this.props;
-        const textColor = isTabActive ? activeTextColor : inactiveTextColor;
-        const fontWeight = isTabActive ? 'bold' : 'normal';
-
-        return <TouchableWithoutFeedback
-            key={`${name}_${page}`}
-            accessible={true}
-            accessibilityLabel={name}
-            accessibilityTraits='button'
-            onPress={() => onPressHandler(page)}
-            onLayout={onLayoutHandler}
-        >
-            <View style={[styles.tab, this.props.tabStyle,]}>
-                <Text style={[{color: textColor, fontWeight,}, textStyle,]}>
-                    {name}
-                </Text>
-            </View>
-        </TouchableWithoutFeedback>;
-    },
-
     measureTab(page, event) {
         const {x, width, height,} = event.nativeEvent.layout;
         this._tabsMeasurements[page] = {left: x, right: x + width, width, height,};
         this._updateView({value: this.scrollValue._value,});
+    },
+
+    shouldComponentUpdate() {
+        return false;
     },
 
     render() {
@@ -186,7 +170,8 @@ const ScrollableTabs = createReactClass({
             transform: [
                 {translateX: this.state._leftTabUnderline},
                 {scaleX: this.state._widthTabUnderline}
-            ]
+            ],
+            willChange:'transform'
         };
 
         return <View
@@ -205,16 +190,21 @@ const ScrollableTabs = createReactClass({
                 onScroll={this.props.onScroll}
                 bounces={false}
                 scrollsToTop={false}
+                style={{willChange: 'scroll-position'}}
             >
                 <View
-                    style={[styles.tabs, {width: this.state._containerWidth,}, this.props.tabsContainerStyle,]}
+                    style={[styles.tabs, {width: this.state._containerWidth}, this.props.tabsContainerStyle,]}
                     ref={'tabContainer'}
-                    onLayout={this.onTabContainerLayout}
-                >
+                    onLayout={this.onTabContainerLayout}>
                     {this.props.tabs.map((name, page) => {
                         const isTabActive = this.state.activeTab === page;
                         const renderTab = this.props.renderTab || this.renderTab;
-                        return renderTab(name, page, isTabActive, this.props.goToPage, this.measureTab.bind(this, page));
+                        if(this.props.renderTab) {
+                            this.props.renderTab(name, page, isTabActive, this.props.goToPage, this.measureTab.bind(this, page));
+                        } else
+                            return <Tabs name={name} page={page} isTabActive={isTabActive} onPressHandler={this.props.goToPage}
+                                         onLayoutHandler={this.measureTab.bind(this, page)}/>
+
                     })}
                     <Animated.View style={[tabUnderlineStyle, dynamicTabUnderline, this.props.underlineStyle,]}/>
                 </View>
