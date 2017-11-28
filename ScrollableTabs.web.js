@@ -84,8 +84,13 @@ const ScrollableTabs = createReactClass({
         }
 
         if (this.necessarilyMeasurementsCompleted(position, position === lastTabPosition)) {
-            this.updateTabPanel(position, pageOffset);
             this.updateTabUnderline(position, pageOffset, tabCount);
+            let req = window.requestAnimationFrame(function() {
+                this.updateTabPanel(position, pageOffset);
+                if(pageOffset >= 1) {
+                    window.cancelAnimationFrame(req);
+                }
+            }.bind(this));
         }
 
         const activePosition = Math.round(offset.value);
@@ -152,8 +157,8 @@ const ScrollableTabs = createReactClass({
         this._updateView({value: this.scrollValue._value,});
     },
 
-    shouldComponentUpdate() {
-        return false;
+    shouldComponentUpdate(newProps, newState) {
+        return newState.activeTab !== this.state.activeTab;
     },
 
     render() {
@@ -204,7 +209,7 @@ const ScrollableTabs = createReactClass({
                             this.props.renderTab(name, page, isTabActive, this.props.goToPage, this.measureTab.bind(this, page));
                         } else
                             return <Tabs name={name} page={page} isTabActive={isTabActive} onPressHandler={this.props.goToPage}
-                                         onLayoutHandler={this.measureTab.bind(this, page)}/>
+                                         onLayoutHandler={this.measureTab.bind(this, page)} {...this.props}/>
 
                     })}
                     <Animated.View style={[tabUnderlineStyle, dynamicTabUnderline, this.props.underlineStyle,{paddingBottom: 15}]}/>
