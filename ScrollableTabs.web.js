@@ -209,7 +209,7 @@ const ScrollableTabs = createReactClass({
                             this.props.renderTab(name, page, isTabActive, this.props.goToPage, this.measureTab.bind(this, page));
                         } else
                             return <Tabs name={name} page={page} isTabActive={isTabActive} onPressHandler={this.props.goToPage}
-                                         onLayoutHandler={this.measureTab.bind(this, page)} {...this.props}/>
+                                         onLayoutHandler={this.measureTab.bind(this, page)} {...this.props} key={page}/>
 
                     })}
                     <Animated.View style={[tabUnderlineStyle, dynamicTabUnderline, this.props.underlineStyle,{paddingBottom: 15}]}/>
