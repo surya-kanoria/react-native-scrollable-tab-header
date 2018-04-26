@@ -1,16 +1,15 @@
-import {TouchableWithoutFeedback} from "react-native";
 var createReactClass = require('create-react-class');
 const React = require('react');
-const ReactNative = require('react-native');
-const {
+import {
     View,
     Animated,
     StyleSheet,
     ScrollView,
     Text,
     Platform,
-    Dimensions
-} = ReactNative;
+    Dimensions,
+    TouchableWithoutFeedback
+} from 'react-native';
 import Tabs from './Tabs'
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
@@ -196,7 +195,7 @@ const ScrollableTabs = createReactClass({
                 onScroll={this.props.onScroll}
                 bounces={false}
                 scrollsToTop={false}
-                style={{willChange: 'scroll-position', overflowX: 'auto', width: '100%' }}                
+                style={{willChange: 'scroll-position', overflowX: 'auto', width: '100%' }}
             >
                 <View
                     style={[styles.tabs, {width: this.state._containerWidth}, this.props.tabsContainerStyle,]}

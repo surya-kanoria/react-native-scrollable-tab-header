@@ -1,11 +1,10 @@
 import React from 'react';
-import {TouchableWithoutFeedback} from "react-native";
-const ReactNative = require('react-native');
-const {
+import {
     View,
     StyleSheet,
-    Text
-} = ReactNative;
+    Text,
+    TouchableWithoutFeedback
+} from 'react-native';
 
 export default class Tabs extends React.Component {
 
